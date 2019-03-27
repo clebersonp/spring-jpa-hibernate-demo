@@ -3,10 +3,10 @@ package com.in28minutes.repository;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.in28minutes.entity.Course;
 
