@@ -24,7 +24,12 @@ public class CourseRepository {
 	
 	// public Course save(Course course)
 	public Course save(Course course) {
-		return this.em.merge(course);
+		if (course.getId() == null) {
+			this.em.persist(course);
+		} else {
+			return this.em.merge(course);
+		}
+		return course;
 	}
 	
 	// public void deleteById(Long id)

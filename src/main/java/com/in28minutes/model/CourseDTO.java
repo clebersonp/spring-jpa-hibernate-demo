@@ -1,6 +1,7 @@
 package com.in28minutes.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,6 @@ public class CourseDTO implements Serializable {
 	private static final long serialVersionUID = 1084859479138247471L;
 	private Long id;
 	private String name;
+	private LocalDateTime createdDate;
+	private LocalDateTime updatedDate;
 }
