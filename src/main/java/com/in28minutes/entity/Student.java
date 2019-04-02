@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -26,4 +27,7 @@ public class Student implements Serializable {
 	private Long id;
 
 	private String name;
+
+	@OneToOne // a entidade student é a owner no relacionamento com passport
+	private Passport passport;
 }
