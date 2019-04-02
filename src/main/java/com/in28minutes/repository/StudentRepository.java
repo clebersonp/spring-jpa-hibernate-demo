@@ -1,5 +1,7 @@
 package com.in28minutes.repository;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,13 @@ public class StudentRepository {
 	public Student findById(Long id) {
 		Student find = this.em.find(Student.class, id);
 		return find;
+	}
+
+	public Student findStudentByPassportId(Long id) {
+		Optional<Passport> optionalPassport = Optional.ofNullable(this.em.find(Passport.class, id));
+		if(optionalPassport.isPresent()) {
+			return optionalPassport.get().getStudent();
+		}
+		return null;
 	}
 }

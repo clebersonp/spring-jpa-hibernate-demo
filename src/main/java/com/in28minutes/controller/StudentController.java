@@ -41,4 +41,10 @@ public class StudentController {
 		Student findById = this.repository.findById(id);
 		return findById;
 	}
+
+	@GetMapping("/retrieve-student-by-passport-id/{id}")
+	public Student findStudentByPassportId(@PathVariable Long id) {
+		Student findById = this.repository.findStudentByPassportId(id);
+		return findById;
+	}
 }
