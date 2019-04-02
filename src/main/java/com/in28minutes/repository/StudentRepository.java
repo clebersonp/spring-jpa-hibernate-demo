@@ -27,4 +27,9 @@ public class StudentRepository {
 		}
 		return student;
 	}
+	
+	public Student findById(Long id) {
+		Student find = this.em.find(Student.class, id);
+		return find;
+	}
 }

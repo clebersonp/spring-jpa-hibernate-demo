@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,11 @@ public class StudentController {
 		studentPersistence.setPassport(passportPersistence);
 		
 		return this.repository.saveWithPassport(studentPersistence);
+ 	}
+	
+	@GetMapping("/{id}")
+	public Student findById(@PathVariable Long id) {
+		Student findById = this.repository.findById(id);
+		return findById;
 	}
 }
