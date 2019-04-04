@@ -2,6 +2,8 @@ package com.in28minutes.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,9 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@NamedQueries(value = { 
-		@NamedQuery(name = "find_all_courses", query = "Select c From Course c")
-})
+@NamedQueries(value = { @NamedQuery(name = "find_all_courses", query = "Select c From Course c") })
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = -8795832437936109404L;
@@ -43,4 +44,15 @@ public class Course implements Serializable {
 
 	@UpdateTimestamp // automaticamento preenchido na atualização da entidade
 	private LocalDateTime updatedDate;
+
+	@OneToMany(mappedBy = "course") // o owner será o review que terá a coluna course_id, por isso mappedBy course
+	private List<Review> reviews = new ArrayList<>();
+
+	public void addReview(Review review) {
+		this.reviews.add(review);
+	}
+
+	public void removeReview(Review review) {
+		this.reviews.remove(review);
+	}
 }

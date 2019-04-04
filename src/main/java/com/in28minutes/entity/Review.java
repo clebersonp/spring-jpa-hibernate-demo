@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,4 +32,9 @@ public class Review implements Serializable {
 	private String rating;
 
 	private String description;
+
+	@ManyToOne // muitos reviews para o mesmo curso
+	@JoinColumn(name = "course_id") // na tabela review tera uma coluna chamada course_id que referencia o curso
+	@JsonIgnore
+	private Course course;
 }
