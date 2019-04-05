@@ -11,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,6 +51,21 @@ public class Course implements Serializable {
 
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // o owner será o review que terá a coluna course_id, por isso mappedBy course
 	private List<Review> reviews = new ArrayList<>();
+
+	@ManyToMany // 1 curso pode ter n students.
+	// definindo o nome da tabela associativa e as colunas
+	@JoinTable(name = "course_student", joinColumns = {
+			@JoinColumn(name = "course_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "student_id", referencedColumnName = "id") })
+	private List<Student> students = new ArrayList<>();
+
+	public void addStudent(Student student) {
+		this.students.add(student);
+	}
+
+	public void removeStudent(Student student) {
+		this.students.remove(student);
+	}
 
 	public void addReview(Review review) {
 		this.reviews.add(review);
