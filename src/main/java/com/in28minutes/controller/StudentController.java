@@ -1,7 +1,9 @@
 package com.in28minutes.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.in28minutes.entity.Course;
 import com.in28minutes.entity.Passport;
 import com.in28minutes.entity.Student;
 import com.in28minutes.model.StudentDTO;
@@ -52,6 +55,15 @@ public class StudentController {
 	@GetMapping
 	public List<Student> retrieveAllStudents() {
 		return this.repository.findAll();
+	}
+
+	@GetMapping("/{student-id}/courses")
+	public List<Course> retrieveAllCoursesOfAStudent(@PathVariable(name = "student-id") Long studentId) {
+		Optional<Student> optionalStudent = Optional.ofNullable(this.repository.findById(studentId));
+		if (optionalStudent.isPresent()) {
+			return optionalStudent.get().getCourses();
+		}
+		return Collections.emptyList();
 	}
 
 }

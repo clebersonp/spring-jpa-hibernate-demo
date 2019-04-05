@@ -1,7 +1,9 @@
 package com.in28minutes.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.in28minutes.entity.Course;
 import com.in28minutes.entity.Review;
+import com.in28minutes.entity.Student;
 import com.in28minutes.model.CourseDTO;
 import com.in28minutes.model.ReviewDTO;
 import com.in28minutes.repository.CourseRepository;
@@ -46,19 +49,20 @@ public class CourseController {
 	@PostMapping("/{id}/review")
 	public Course saveReview(@PathVariable(name = "id") final Long id, @RequestBody ReviewDTO reviewDto)
 			throws IllegalAccessException, InvocationTargetException {
-		
+
 		Review review = new Review();
 		BeanUtils.copyProperties(review, reviewDto);
-		
+
 		Course course = this.courseRepository.findById(id);
-		
+
 		course.addReview(review);
 		review.setCourse(course);
 		this.reviewRepository.save(review);
-		
+
 		// para atualizar a instancia de course com a nova review adicionada
-		//this.courseRepository.refresh(course); // ou eu poderia adicionar o review a lista de reviews do course
-		
+		// this.courseRepository.refresh(course); // ou eu poderia adicionar o review a
+		// lista de reviews do course
+
 		return course;
 	}
 
@@ -78,9 +82,18 @@ public class CourseController {
 	public void deleteById(@PathVariable Long id) {
 		this.courseRepository.deleteById(id);
 	}
-	
+
 	@GetMapping
 	public List<Course> retrieveAllCourses() {
 		return this.courseRepository.findAll();
+	}
+
+	@GetMapping("/{course-id}/students")
+	public List<Student> retrieveAllStudentsOfACourse(@PathVariable(name = "course-id") Long courseId) {
+		Optional<Course> optionalCourse = Optional.ofNullable(this.courseRepository.findById(courseId));
+		if (optionalCourse.isPresent()) {
+			return optionalCourse.get().getStudents();
+		}
+		return Collections.emptyList();
 	}
 }

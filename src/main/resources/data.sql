@@ -20,5 +20,7 @@ insert into review(rating, description, course_id) values ('5', 'Awesome Course'
 
 insert into course_student(course_id, student_id) values (1, 1);
 insert into course_student(course_id, student_id) values (1, 2);
+insert into course_student(course_id, student_id) values (2, 2);
 insert into course_student(course_id, student_id) values (1, 3);
+insert into course_student(course_id, student_id) values (3, 3);
 insert into course_student(course_id, student_id) values (2, 4);
