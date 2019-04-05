@@ -1,6 +1,7 @@
 package com.in28minutes.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.BeanUtils;
@@ -20,22 +21,22 @@ import com.in28minutes.repository.StudentRepository;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
-	
+
 	@Autowired
 	private StudentRepository repository;
-	
+
 	@PostMapping
 	public Student save(@RequestBody StudentDTO studentDto) throws IllegalAccessException, InvocationTargetException {
 		Student studentPersistence = new Student();
 		Passport passportPersistence = new Passport();
 		BeanUtils.copyProperties(studentDto, studentPersistence, "passport");
 		BeanUtilsBean.getInstance().copyProperties(passportPersistence, studentDto.getPassport());
-		
+
 		studentPersistence.setPassport(passportPersistence);
-		
+
 		return this.repository.saveWithPassport(studentPersistence);
- 	}
-	
+	}
+
 	@GetMapping("/{id}")
 	public Student findById(@PathVariable Long id) {
 		Student findById = this.repository.findById(id);
@@ -47,4 +48,10 @@ public class StudentController {
 		Student findById = this.repository.findStudentByPassportId(id);
 		return findById;
 	}
+
+	@GetMapping
+	public List<Student> retrieveAllStudents() {
+		return this.repository.findAll();
+	}
+
 }

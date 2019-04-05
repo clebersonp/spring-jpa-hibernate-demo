@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -57,6 +59,7 @@ public class Course implements Serializable {
 	@JoinTable(name = "course_student", joinColumns = {
 			@JoinColumn(name = "course_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "student_id", referencedColumnName = "id") })
+	@JsonIgnore
 	private List<Student> students = new ArrayList<>();
 
 	public void addStudent(Student student) {

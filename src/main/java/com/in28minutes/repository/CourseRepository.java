@@ -1,5 +1,6 @@
 package com.in28minutes.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -16,12 +17,12 @@ public class CourseRepository {
 
 	@Autowired
 	private EntityManager em;
-	
+
 	// public Course findById(Long id) -> insert or update
 	public Course findById(Long id) {
 		return this.em.find(Course.class, id);
 	}
-	
+
 	// public Course save(Course course)
 	public Course save(Course course) {
 		if (course.getId() == null) {
@@ -31,7 +32,7 @@ public class CourseRepository {
 		}
 		return course;
 	}
-	
+
 	// public void deleteById(Long id)
 	public void deleteById(Long id) {
 		Optional<Course> optionalCourse = Optional.ofNullable(this.findById(id));
@@ -42,5 +43,9 @@ public class CourseRepository {
 
 	public void refresh(Course course) {
 		this.em.refresh(course);
+	}
+
+	public List<Course> findAll() {
+		return this.em.createNamedQuery("find_all_courses", Course.class).getResultList();
 	}
 }

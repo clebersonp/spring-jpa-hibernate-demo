@@ -1,5 +1,6 @@
 package com.in28minutes.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -17,10 +18,11 @@ public class StudentRepository {
 
 	@Autowired
 	private EntityManager em;
-	
+
 	public Student saveWithPassport(Student student) {
 		if (student.getId() == null) {
-			// primeiro preciso persistir um passport pois com sua chave primaria eu consigo relacionar na tabela student
+			// primeiro preciso persistir um passport pois com sua chave primaria eu consigo
+			// relacionar na tabela student
 			Passport passport = student.getPassport();
 			this.em.persist(passport);
 			this.em.persist(student);
@@ -29,7 +31,7 @@ public class StudentRepository {
 		}
 		return student;
 	}
-	
+
 	public Student findById(Long id) {
 		Student find = this.em.find(Student.class, id);
 		return find;
@@ -37,9 +39,13 @@ public class StudentRepository {
 
 	public Student findStudentByPassportId(Long id) {
 		Optional<Passport> optionalPassport = Optional.ofNullable(this.em.find(Passport.class, id));
-		if(optionalPassport.isPresent()) {
+		if (optionalPassport.isPresent()) {
 			return optionalPassport.get().getStudent();
 		}
 		return null;
+	}
+
+	public List<Student> findAll() {
+		return this.em.createNamedQuery("find_all_students", Student.class).getResultList();
 	}
 }

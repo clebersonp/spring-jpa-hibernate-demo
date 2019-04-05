@@ -1,6 +1,7 @@
 package com.in28minutes.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +77,10 @@ public class CourseController {
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteById(@PathVariable Long id) {
 		this.courseRepository.deleteById(id);
+	}
+	
+	@GetMapping
+	public List<Course> retrieveAllCourses() {
+		return this.courseRepository.findAll();
 	}
 }
