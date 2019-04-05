@@ -16,26 +16,51 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.in28minutes.entity.Course;
+import com.in28minutes.entity.Review;
 import com.in28minutes.model.CourseDTO;
+import com.in28minutes.model.ReviewDTO;
 import com.in28minutes.repository.CourseRepository;
+import com.in28minutes.repository.ReviewRepository;
 
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
-	
+
 	@Autowired
-	private CourseRepository repository;
-	
+	private CourseRepository courseRepository;
+
+	@Autowired
+	private ReviewRepository reviewRepository;
+
 	@GetMapping("/{id}")
 	public Course findById(@PathVariable Long id) {
-		return this.repository.findById(id);
+		return this.courseRepository.findById(id);
 	}
-	
+
 	@PostMapping
 	public Course save(@RequestBody CourseDTO courseDto) throws IllegalAccessException, InvocationTargetException {
 		return saveOrUpdate(courseDto);
 	}
-	
+
+	@PostMapping("/{id}/review")
+	public Course saveReview(@PathVariable(name = "id") final Long id, @RequestBody ReviewDTO reviewDto)
+			throws IllegalAccessException, InvocationTargetException {
+		
+		Review review = new Review();
+		BeanUtils.copyProperties(review, reviewDto);
+		
+		Course course = this.courseRepository.findById(id);
+		
+		course.addReview(review);
+		review.setCourse(course);
+		this.reviewRepository.save(review);
+		
+		// para atualizar a instancia de course com a nova review adicionada
+		//this.courseRepository.refresh(course); // ou eu poderia adicionar o review a lista de reviews do course
+		
+		return course;
+	}
+
 	@PutMapping
 	public Course update(@RequestBody CourseDTO courseDto) throws IllegalAccessException, InvocationTargetException {
 		return saveOrUpdate(courseDto);
@@ -44,12 +69,12 @@ public class CourseController {
 	private Course saveOrUpdate(CourseDTO courseDto) throws IllegalAccessException, InvocationTargetException {
 		Course coursePersistence = new Course();
 		BeanUtils.copyProperties(coursePersistence, courseDto);
-		return this.repository.save(coursePersistence);
+		return this.courseRepository.save(coursePersistence);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteById(@PathVariable Long id) {
-		this.repository.deleteById(id);
+		this.courseRepository.deleteById(id);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,7 +46,7 @@ public class Course implements Serializable {
 	@UpdateTimestamp // automaticamento preenchido na atualização da entidade
 	private LocalDateTime updatedDate;
 
-	@OneToMany(mappedBy = "course") // o owner será o review que terá a coluna course_id, por isso mappedBy course
+	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // o owner será o review que terá a coluna course_id, por isso mappedBy course
 	private List<Review> reviews = new ArrayList<>();
 
 	public void addReview(Review review) {

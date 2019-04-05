@@ -39,4 +39,8 @@ public class CourseRepository {
 			this.em.remove(optionalCourse.get());
 		}
 	}
+
+	public void refresh(Course course) {
+		this.em.refresh(course);
+	}
 }
