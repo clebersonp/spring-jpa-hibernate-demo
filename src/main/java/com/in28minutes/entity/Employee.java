@@ -20,7 +20,9 @@ import lombok.Setter;
 @Entity
 // InheritanceType.SINGLE_TABLE) todos os filhos de employee serão persistidos na mesma tabela employee
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // será criada uma tabela para cadas classe concreta
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // será criada uma tabela para cadas classe concreta
+@Inheritance(strategy = InheritanceType.JOINED) // serão criadas tabelas para a classe abstrata e para cada classe concreta, e
+												// será feito join das tabelas concretas com a abstrata atraves da FK
 //@DiscriminatorColumn(name = "employee_type") // para especificar o nome da coluna da herança com a strategy single_table
 //@Table(name = "employee")
 @Getter
