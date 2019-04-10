@@ -3,7 +3,6 @@ package com.in28minutes.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "part-time-employee")
 @Getter
 @Setter
 @NoArgsConstructor

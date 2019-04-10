@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.in28minutes.entity.Employee;
+import com.in28minutes.entity.FullTimeEmployee;
+import com.in28minutes.entity.PartTimeEmployee;
 import com.in28minutes.repository.EmployeeRepository;
 
 @RestController
@@ -20,8 +22,13 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeRepository repository;
 
-	@PostMapping
-	public Employee save(@RequestBody Employee employee) {
+	@PostMapping("/fulltime")
+	public Employee saveFullTime(@RequestBody FullTimeEmployee employee) {
+		return this.repository.save(employee);
+	}
+
+	@PostMapping("/parttime")
+	public Employee savePartTime(@RequestBody PartTimeEmployee employee) {
 		return this.repository.save(employee);
 	}
 
