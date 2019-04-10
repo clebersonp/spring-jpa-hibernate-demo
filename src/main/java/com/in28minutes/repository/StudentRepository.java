@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.in28minutes.entity.Course;
 import com.in28minutes.entity.Passport;
 import com.in28minutes.entity.Student;
+import com.in28minutes.model.StudentDTO;
 
 @Repository
 @Transactional
@@ -33,8 +36,7 @@ public class StudentRepository {
 	}
 
 	public Student findById(Long id) {
-		Student find = this.em.find(Student.class, id);
-		return find;
+		return this.em.find(Student.class, id);
 	}
 
 	public Student findStudentByPassportId(Long id) {
@@ -47,5 +49,22 @@ public class StudentRepository {
 
 	public List<Student> findAll() {
 		return this.em.createNamedQuery("find_all_students", Student.class).getResultList();
+	}
+
+	public Student saveWithCourse(StudentDTO studentDTO) {
+		Student newStudent = new Student();
+		Course newCourse = new Course();
+		BeanUtils.copyProperties(studentDTO, newStudent, "passport", "course");
+		BeanUtils.copyProperties(studentDTO.getCourse(), newCourse);
+
+		newStudent.addCourse(newCourse);
+		newCourse.addStudent(newStudent);
+
+		this.em.persist(newStudent);
+		this.em.persist(newCourse);
+
+//		this.em.flush(); ou no fim da transação será inserida na tabela intermediaria
+
+		return newStudent;
 	}
 }

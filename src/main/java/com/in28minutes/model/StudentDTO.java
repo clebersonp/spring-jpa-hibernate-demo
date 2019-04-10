@@ -17,4 +17,5 @@ public class StudentDTO implements Serializable {
 	private String name;
 	@JsonProperty(value = "passport")
 	private PassportDTO passport;
+	private CourseDTO course;
 }

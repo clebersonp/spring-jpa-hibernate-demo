@@ -42,14 +42,12 @@ public class StudentController {
 
 	@GetMapping("/{id}")
 	public Student findById(@PathVariable Long id) {
-		Student findById = this.repository.findById(id);
-		return findById;
+		return this.repository.findById(id);
 	}
 
 	@GetMapping("/retrieve-student-by-passport-id/{id}")
 	public Student findStudentByPassportId(@PathVariable Long id) {
-		Student findById = this.repository.findStudentByPassportId(id);
-		return findById;
+		return this.repository.findStudentByPassportId(id);
 	}
 
 	@GetMapping
@@ -64,6 +62,11 @@ public class StudentController {
 			return optionalStudent.get().getCourses();
 		}
 		return Collections.emptyList();
+	}
+
+	@PostMapping("/courses")
+	public Student saveStudentAndCourse(@RequestBody StudentDTO studentDTO) {
+		return this.repository.saveWithCourse(studentDTO);
 	}
 
 }
