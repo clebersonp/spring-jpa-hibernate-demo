@@ -2,6 +2,8 @@ package com.in28minutes.controller;
 
 import java.util.List;
 
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,5 +42,15 @@ public class EmployeeController {
 	@GetMapping
 	public List<Employee> retrieveAllEmployees() {
 		return this.repository.findAll();
+	}
+
+	@GetMapping("/mapped-super-class/retrieve-all-part-time")
+	public List<PartTimeEmployee> retrieveAllPartTimeEmployees() {
+		return this.repository.findAllPartTime();
+	}
+
+	@GetMapping("/mapped-super-class/retrieve-all-full-time")
+	public List<FullTimeEmployee> retrieveAllFullTimeEmployees() {
+		return this.repository.findAllFullTime();
 	}
 }

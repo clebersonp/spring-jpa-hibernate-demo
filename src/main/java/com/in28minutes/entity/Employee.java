@@ -3,12 +3,10 @@ package com.in28minutes.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -17,11 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@MappedSuperclass // para ser usada sem heranca
+//@Entity // MappedSuperClass precisa remover o entity pois somente serão criadas as tabelas para as classes concretas
 // InheritanceType.SINGLE_TABLE) todos os filhos de employee serão persistidos na mesma tabela employee
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // será criada uma tabela para cadas classe concreta
-@Inheritance(strategy = InheritanceType.JOINED) // serão criadas tabelas para a classe abstrata e para cada classe concreta, e
+//@Inheritance(strategy = InheritanceType.JOINED) // serão criadas tabelas para a classe abstrata e para cada classe concreta, e
 												// será feito join das tabelas concretas com a abstrata atraves da FK
 //@DiscriminatorColumn(name = "employee_type") // para especificar o nome da coluna da herança com a strategy single_table
 //@Table(name = "employee")
